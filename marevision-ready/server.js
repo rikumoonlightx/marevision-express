@@ -1,33 +1,27 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-require("dotenv").config();
-
+const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
-const PORT = process.env.PORT || 10000;
-const MONGO_URI = process.env.MONGODB_URI;
+const port = process.env.PORT || 3000;
 
-// Middlewares
-app.use(cors());
+// Middleware
 app.use(express.json());
 
-// Simple test route
-app.get("/", (req, res) => {
-  res.send("Marevision backend is running!");
-});
-
 // MongoDB connection
-mongoose.connect(MONGO_URI, {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-})
-.then(() => {
-  console.log("Connected to MongoDB");
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-})
-.catch((err) => {
-  console.error("MongoDB connection error:", err);
+}).then(() => {
+  console.log('Connected to MongoDB');
+}).catch(err => {
+  console.error('MongoDB connection error:', err);
 });
-// Full Express server with routes, DB connection, auth, uploads, reports, etc.
+
+// Test route
+app.get('/', (req, res) => {
+  res.send('Marevision backend is running!');
+});
+
+// Start server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
